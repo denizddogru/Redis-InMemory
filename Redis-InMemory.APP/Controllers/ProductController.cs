@@ -30,10 +30,21 @@ public class ProductController : Controller
 
 
         // 1 dakika süreyle, 4 kez cache'deki dataya erişlebilirz ( 4 çünkü sliding expiration 15 saniyeye set)
-        options.AbsoluteExpiration = DateTime.Now.AddMinutes(1);
+        options.AbsoluteExpiration = DateTime.Now.AddSeconds(15);
 
         // Her 15 saniyede memory'yi yeniler. erişmez isek silinir.
-        options.SlidingExpiration = TimeSpan.FromSeconds(15);
+       // options.SlidingExpiration = TimeSpan.FromSeconds(15);
+
+        options.Priority = CacheItemPriority.High; // Time key üzerinden, memory'de data tutulurken priority'si belirlenir. 
+
+
+        // delegate'ler metodları işaret eder ( 4 tane parametre alan bir metodu lambda ile yazdık. lambda kullanmasaydık method oluşturucaktık.
+
+        options.RegisterPostEvictionCallback((key, value, reason, state) => {
+
+            _memoryCache.Set("callback", $"{key}->{value} => reason: {reason}");
+        });
+
 
         // memory'de, Time oluştuğu zaman, 20 saniyelik oluşacak
         _memoryCache.Set<string>("Time", DateTime.Now.ToString(), options);
@@ -52,9 +63,10 @@ public class ProductController : Controller
         //});
 
         _memoryCache.TryGetValue("Time", out string timeCache);
-
+        _memoryCache.TryGetValue("callback", out string callback);
         ViewBag.Time = timeCache;
 
+        ViewBag.callback = callback;
         ViewBag.Time = _memoryCache.Get<string>("Time");
         return View();
     }
@@ -66,10 +78,13 @@ public class ProductController : Controller
 }
 
 /*
- * Absolute Expiration (Mutlak Süre Sonu):
+ 
+Absolute Expiration (Mutlak Süre Sonu):
  
 Belirtilen kesin bir tarih veya süreden sonra önbellekteki veri otomatik olarak silinir.
 Örnek: "Bu veri 30 dakika sonra silinsin."
+
+-----------------
 
 
 Sliding Expiration (Kayan Süre Sonu):
@@ -79,5 +94,4 @@ Belirtilen süre boyunca erişim olmazsa veri silinir.
 Örnek: "Son erişimden itibaren 10 dakika boyunca erişim olmazsa silinsin."
 
 
-/*
-
+*/
