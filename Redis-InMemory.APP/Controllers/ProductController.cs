@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Redis_InMemory.APP.Models;
 
 namespace Redis_InMemory.APP.Controllers;
 public class ProductController : Controller
@@ -49,6 +50,8 @@ public class ProductController : Controller
         // memory'de, Time oluştuğu zaman, 20 saniyelik oluşacak
         _memoryCache.Set<string>("Time", DateTime.Now.ToString(), options);
 
+        Product p = new Product { Id = 1, Name = "Kalem", Price = 200 };
+        _memoryCache.Set<Product>("product:1", p);
 
 
 
@@ -67,6 +70,8 @@ public class ProductController : Controller
         ViewBag.Time = timeCache;
 
         ViewBag.callback = callback;
+
+        ViewBag.product = _memoryCache.Get<Product>("product:1");
         ViewBag.Time = _memoryCache.Get<string>("Time");
         return View();
     }
