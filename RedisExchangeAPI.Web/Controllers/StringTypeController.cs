@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 
 namespace RedisExchangeAPI.Web.Controllers;
-public class StringType : Controller
+public class StringTypeController : Controller
 {
     private readonly RedisService _redisService;
     private readonly IDatabase db;
-    public StringType(RedisService redisService)
+    public StringTypeController(RedisService redisService)
     {
         _redisService = redisService;
         db = _redisService.GetDb(0);
