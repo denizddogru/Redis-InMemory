@@ -1,13 +1,13 @@
 # Caching in ASP.NET Core Course
 
 ## About
-In-Memory Cache: Uygulama sunucusunun RAM'inde saklanır
-Distributed Cache: Ayrı bir cache sunucusunda (örn. Redis) saklanır
+- In-Memory Cache: Uygulama sunucusunun RAM'inde saklanır
+- Distributed Cache: Ayrı bir cache sunucusunda (örn. Redis) saklanır
 
-In this course there are three projects
-**RedisIn-Memory.APP** => In this part we test out the AbsoluteExpiration and SlidingExpiration using the In-Memory Cache using the Microsoft Caching library.
-**IDistributedCacheRedisApp.Web** => We connect to the redis server and add some simple/complex types to the Db.
-**RedisExchangeAPI.Web** => Using the StackExhange.Redis library, we fully use the redis tools for creating and managing  redis data types and test out the data in the redis server.
+### Projects in the API
+- **RedisIn-Memory.APP** => In this part we test out the AbsoluteExpiration and SlidingExpiration using the In-Memory Cache using the Microsoft Caching library.
+- **IDistributedCacheRedisApp.Web** => We connect to the redis server and add some simple/complex types to the Db.
+- **RedisExchangeAPI.Web** => Using the StackExhange.Redis library, we fully use the redis tools for creating and managing  redis data types and test out the data in the redis server.
 
 This course consists of 2 main sections:
 
